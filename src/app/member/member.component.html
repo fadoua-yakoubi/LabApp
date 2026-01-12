@@ -1,0 +1,379 @@
+<div class="container-fluid">
+  <h2>Gestion des Membres</h2>
+
+  <!-- Onglets -->
+  <div class="tabs">
+    <button 
+      class="tab-button"
+      [class.active]="activeTab === 'etudiants'"
+      (click)="switchTab('etudiants')"
+    >
+      Étudiants ({{etudiants.length}})
+    </button>
+    <button 
+      class="tab-button"
+      [class.active]="activeTab === 'enseignants'"
+      (click)="switchTab('enseignants')"
+    >
+      Enseignants ({{enseignants.length}})
+    </button>
+  </div>
+
+  <!-- Barre d'actions principale -->
+  <div class="actions-bar">
+    <button class="btn btn-primary" routerLink="/create">
+      <mat-icon>add</mat-icon> 
+      Créer un nouveau {{ activeTab === 'etudiants' ? 'étudiant' : 'enseignant' }}
+    </button>
+    
+    <!-- Actions de suppression -->
+    <div class="selection-actions" *ngIf="selectedCount > 0">
+      <span class="selection-count">
+        {{selectedCount}} {{selectedCount === 1 ? 'élément' : 'éléments'}} sélectionné(s)
+      </span>
+      <button 
+        mat-button 
+        color="warn" 
+        (click)="deleteSelected()"
+        class="delete-selected-btn"
+      >
+        <mat-icon>delete</mat-icon>
+        Supprimer la sélection
+      </button>
+      <button 
+        mat-button 
+        color="primary" 
+        (click)="deselectAll()"
+        class="deselect-btn"
+      >
+        <mat-icon>clear</mat-icon>
+        Tout désélectionner
+      </button>
+    </div>
+
+    <!-- Actions globales -->
+    <div class="global-actions">
+      <button 
+        mat-button 
+        *ngIf="(activeTab === 'etudiants' ? filteredEtudiants : filteredEnseignants).length > 0"
+        (click)="selectAllVisible()"
+        class="select-all-btn"
+      >
+        <mat-icon>check_box</mat-icon>
+        Tout sélectionner
+      </button>
+      
+      <button 
+        mat-button 
+        color="warn" 
+        *ngIf="(activeTab === 'etudiants' ? etudiants : enseignants).length > 0"
+        (click)="deleteAll()"
+        class="delete-all-btn"
+      >
+        <mat-icon>delete_sweep</mat-icon>
+        Tout supprimer
+      </button>
+    </div>
+    
+    <!-- Barre de recherche -->
+    <div class="search-box">
+      <mat-icon>search</mat-icon>
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="filter()"
+        [placeholder]="activeTab === 'etudiants' 
+          ? 'Rechercher par nom, prénom, CIN, email ou diplôme...' 
+          : 'Rechercher par nom, prénom, CIN, email, grade ou établissement...'"
+        class="form-control"
+      >
+    </div>
+  </div>
+
+  <!-- Tableau des ÉTUDIANTS -->
+  <div *ngIf="activeTab === 'etudiants'">
+    <table mat-table [dataSource]="filteredEtudiants" class="mat-elevation-z8">
+      
+      <!-- Colonne de sélection -->
+      <ng-container matColumnDef="selection">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox 
+            (change)="selectAllVisible()"
+            [checked]="selectedCount === filteredEtudiants.length"
+            [indeterminate]="selectedCount > 0 && selectedCount < filteredEtudiants.length"
+          ></mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-checkbox 
+            [checked]="isMemberSelected(element.id)"
+            (change)="toggleMemberSelection(element.id)"
+          ></mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="1">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="2">
+        <th mat-header-cell *matHeaderCellDef> CIN </th>
+        <td mat-cell *matCellDef="let element"> {{element.cin}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="3">
+        <th mat-header-cell *matHeaderCellDef> Nom </th>
+        <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="4">
+        <th mat-header-cell *matHeaderCellDef> Prénom </th>
+        <td mat-cell *matCellDef="let element"> {{element.prenom}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="5">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> 
+          <span class="email-cell">{{element.email}}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="6">
+        <th mat-header-cell *matHeaderCellDef> Diplôme </th>
+        <td mat-cell *matCellDef="let element"> 
+          <span class="badge badge-info">{{element.diplome || '-'}}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="7">
+        <th mat-header-cell *matHeaderCellDef> Date d'inscription </th>
+        <td mat-cell *matCellDef="let element"> 
+          {{element.dateInscription | date:'dd/MM/yyyy'}} 
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="8">
+        <th mat-header-cell *matHeaderCellDef> Encadrant </th>
+        <td mat-cell *matCellDef="let element"> 
+          <span *ngIf="element.encadrant" class="encadrant-badge">
+            {{element.encadrant.prenom}} {{element.encadrant.nom}}
+          </span>
+          <span *ngIf="!element.encadrant" class="no-encadrant">
+            Non affecté
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="9">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <button 
+            mat-icon-button 
+            color="primary" 
+            [routerLink]="['/', element.id, 'edit']"
+            matTooltip="Modifier"
+            class="action-btn"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          
+          <button 
+            mat-icon-button 
+            color="accent" 
+            (click)="openAffectationDialog(element)"
+            matTooltip="Affecter un encadrant"
+            class="action-btn"
+          >
+            <mat-icon>person_add</mat-icon>
+          </button>
+          
+          <button 
+            mat-icon-button 
+            color="warn" 
+            (click)="delete(element.id)"
+            matTooltip="Supprimer"
+            class="action-btn delete-btn"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button 
+  mat-icon-button 
+  color="accent" 
+  (click)="openPublicationsDialog(element)"
+  matTooltip="Gérer les publications"
+  class="action-btn"
+>
+  <mat-icon>article</mat-icon>
+</button>
+        </td>
+        
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="etudiantColumns"></tr>
+      <tr mat-row 
+          *matRowDef="let row; columns: etudiantColumns;" 
+          [class.selected-row]="isMemberSelected(row.id)"
+      ></tr>
+    </table>
+
+    <!-- Message si aucun étudiant -->
+    <div *ngIf="filteredEtudiants.length === 0" class="no-results">
+      <mat-icon>info</mat-icon>
+      <p>Aucun étudiant trouvé</p>
+    </div>
+  </div>
+
+  <!-- Tableau des ENSEIGNANTS -->
+  <div *ngIf="activeTab === 'enseignants'">
+    <table mat-table [dataSource]="filteredEnseignants" class="mat-elevation-z8">
+      
+      <!-- Colonne de sélection -->
+      <ng-container matColumnDef="selection">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox 
+            (change)="selectAllVisible()"
+            [checked]="selectedCount === filteredEnseignants.length"
+            [indeterminate]="selectedCount > 0 && selectedCount < filteredEnseignants.length"
+          ></mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-checkbox 
+            [checked]="isMemberSelected(element.id)"
+            (change)="toggleMemberSelection(element.id)"
+          ></mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="1">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="2">
+        <th mat-header-cell *matHeaderCellDef> CIN </th>
+        <td mat-cell *matCellDef="let element"> {{element.cin}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="3">
+        <th mat-header-cell *matHeaderCellDef> Nom </th>
+        <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="4">
+        <th mat-header-cell *matHeaderCellDef> Prénom </th>
+        <td mat-cell *matCellDef="let element"> {{element.prenom}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="5">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> 
+          <span class="email-cell">{{element.email}}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="6">
+        <th mat-header-cell *matHeaderCellDef> Grade </th>
+        <td mat-cell *matCellDef="let element"> 
+          <span class="badge badge-success">{{element.grade || '-'}}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="7">
+        <th mat-header-cell *matHeaderCellDef> Établissement </th>
+        <td mat-cell *matCellDef="let element"> 
+          <span class="badge badge-primary">{{element.etablissement || '-'}}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="8">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <button 
+            mat-icon-button 
+            color="primary" 
+            [routerLink]="['/', element.id, 'edit']"
+            matTooltip="Modifier"
+            class="action-btn"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          
+          <button 
+            mat-icon-button 
+            color="warn" 
+            (click)="delete(element.id)"
+            matTooltip="Supprimer"
+            class="action-btn delete-btn"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+                        <button 
+  mat-icon-button 
+  color="accent" 
+  (click)="openPublicationsDialog(element)"
+  matTooltip="Gérer les publications"
+  class="action-btn"
+>
+  <mat-icon>article</mat-icon>
+</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="enseignantColumns"></tr>
+      <tr mat-row 
+          *matRowDef="let row; columns: enseignantColumns;" 
+          [class.selected-row]="isMemberSelected(row.id)"
+      ></tr>
+    </table>
+
+    <!-- Message si aucun enseignant -->
+    <div *ngIf="filteredEnseignants.length === 0" class="no-results">
+      <mat-icon>info</mat-icon>
+      <p>Aucun enseignant trouvé</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal d'affectation d'encadrant -->
+<div class="modal-overlay" *ngIf="selectedEtudiant" (click)="cancelAffectation()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h3>Affecter un encadrant</h3>
+    
+    <p class="student-info">
+      <strong>Étudiant :</strong> {{selectedEtudiant.prenom}} {{selectedEtudiant.nom}}
+    </p>
+    
+    <div class="form-group">
+      <label for="encadrant">Sélectionner un encadrant :</label>
+      <select 
+        id="encadrant" 
+        [(ngModel)]="selectedEncadrant" 
+        class="form-control"
+      >
+        <option value="0">-- Choisir un enseignant --</option>
+        <option 
+          *ngFor="let ens of enseignants" 
+          [value]="ens.id"
+        >
+          {{ens.prenom}} {{ens.nom}} - {{ens.grade}} ({{ens.etablissement}})
+        </option>
+      </select>
+    </div>
+    
+    <div class="modal-actions">
+      <button 
+        class="btn btn-primary" 
+        (click)="affecterEncadrant()"
+        [disabled]="selectedEncadrant === 0"
+      >
+        ✓ Affecter
+      </button>
+      <button 
+        class="btn btn-secondary" 
+        (click)="cancelAffectation()"
+      >
+        ✕ Annuler
+      </button>
+    </div>
+  </div>
+</div>

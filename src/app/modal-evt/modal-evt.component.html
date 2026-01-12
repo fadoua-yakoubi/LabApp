@@ -1,0 +1,58 @@
+<div class="modal-container">
+  <h2 class="modal-title">{{ data?.id ? 'Modifier' : 'Ajouter' }} un événement</h2>
+  
+  <mat-dialog-content [formGroup]="form">
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Titre de l'événement</mat-label>
+        <input matInput
+               formControlName="titre"
+               placeholder="Ex: Conférence sur l'IA">
+        <mat-icon matPrefix>title</mat-icon>
+        <mat-error *ngIf="form.get('titre')?.hasError('required')">
+          Le titre est obligatoire
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Date de l'événement</mat-label>
+        <input matInput
+               [matDatepicker]="picker"
+               formControlName="date"
+               placeholder="Sélectionnez une date">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-icon matPrefix>event</mat-icon>
+        <mat-error *ngIf="form.get('date')?.hasError('required')">
+          La date est obligatoire
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Lieu de l'événement</mat-label>
+        <input matInput
+               formControlName="lieu"
+               placeholder="Ex: Paris, France">
+        <mat-icon matPrefix>location_on</mat-icon>
+        <mat-error *ngIf="form.get('lieu')?.hasError('required')">
+          Le lieu est obligatoire
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="modal-actions">
+    <button mat-button class="cancel-btn" (click)="close()">
+      <mat-icon>close</mat-icon>
+      Annuler
+    </button>
+    <button mat-raised-button color="primary" class="save-btn" (click)="save()" [disabled]="!form.valid">
+      <mat-icon>{{ data?.id ? 'edit' : 'save' }}</mat-icon>
+      {{ data?.id ? 'Modifier' : 'Enregistrer' }}
+    </button>
+  </mat-dialog-actions>
+</div>

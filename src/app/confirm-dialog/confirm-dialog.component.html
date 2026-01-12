@@ -1,0 +1,82 @@
+<div class="confirm-dialog-container">
+  <h2 mat-dialog-title class="dialog-title">{{title}}</h2>
+  
+  <mat-dialog-content class="dialog-content">
+    <p class="warning-text">{{message}}</p>
+    
+    <!-- Section pour afficher les éléments à supprimer -->
+    <div class="elements-to-delete" *ngIf="elements && elements.length > 0">
+      <div class="section-title">Éléments à supprimer :</div>
+      
+      <div class="elements-grid">
+        <!-- Header du tableau -->
+        <div class="table-header">
+          <div class="header-cell name">Nom/Email</div>
+          <div class="header-cell type">Type</div>
+          <div class="header-cell date">Date</div>
+          <div class="header-cell details">Détails</div>
+        </div>
+        
+        <!-- Lignes des éléments -->
+        <div class="element-row" *ngFor="let element of elements">
+          <div class="cell name">
+            <strong>{{element.nom || element.email || 'Sans nom'}}</strong>
+            <div class="email">{{element.email}}</div>
+          </div>
+          <div class="cell type">
+            <span class="type-badge" [ngClass]="{'student': element.type === 'etd', 'teacher': element.type === 'ens'}">
+              {{element.type === 'etd' ? 'Étudiant' : element.type === 'ens' ? 'Enseignant' : 'Inconnu'}}
+            </span>
+          </div>
+          <div class="cell date">
+            {{getFormattedDate(element)}}
+          </div>
+          <div class="cell details">
+            <span *ngIf="element.type === 'etd'">{{element.diplome || 'Aucun diplôme'}}</span>
+            <span *ngIf="element.type === 'ens'">{{element.grade || 'Aucun grade'}}</span>
+          </div>
+        </div>
+        
+        <!-- Résumé -->
+        <div class="summary">
+          <div class="summary-item">
+            <span class="label">Total éléments :</span>
+            <span class="value">{{elements.length}}</span>
+          </div>
+          <div class="summary-item">
+            <span class="label">Étudiants :</span>
+            <span class="value">{{countByType('etd')}}</span>
+          </div>
+          <div class="summary-item">
+            <span class="label">Enseignants :</span>
+            <span class="value">{{countByType('ens')}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Message quand il n'y a pas d'éléments -->
+    <div class="no-elements" *ngIf="!elements || elements.length === 0">
+      <div class="empty-state">
+        <mat-icon>warning</mat-icon>
+        <span>Aucun élément sélectionné pour suppression</span>
+      </div>
+    </div>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions align="end" class="dialog-actions">
+    <button mat-button mat-dialog-close class="cancel-btn">
+      <mat-icon>close</mat-icon>
+      Annuler
+    </button>
+    <button 
+      mat-raised-button 
+      [mat-dialog-close]="true" 
+      color="warn" 
+      class="delete-btn"
+      [disabled]="!elements || elements.length === 0">
+      <mat-icon>delete_forever</mat-icon>
+      Supprimer ({{elements ? elements.length : 0}})
+    </button>
+  </mat-dialog-actions>
+</div>

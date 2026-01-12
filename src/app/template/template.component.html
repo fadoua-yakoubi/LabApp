@@ -1,0 +1,82 @@
+<div class="template-container">
+  
+  <!-- HEADER PRINCIPAL FIXE AVEC COULEURS -->
+  <header class="main-header">
+    <div class="header-container">
+      <!-- Logo avec couleur -->
+      <div class="logo-section">
+        <div class="logo">
+          <mat-icon class="app-icon">science</mat-icon>
+          <h1 class="app-name">LabManager</h1>
+        </div>
+      </div>
+      
+      <!-- Navigation horizontale colorée -->
+      <nav class="main-nav">
+        <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+          <mat-icon class="nav-icon">dashboard</mat-icon>
+          <span class="nav-text">Tableau de bord</span>
+        </a>
+        
+        <a routerLink="/members" routerLinkActive="active" class="nav-item">
+          <mat-icon class="nav-icon">people</mat-icon>
+          <span class="nav-text">Membres</span>
+        </a>
+        
+        <a routerLink="/tools" routerLinkActive="active" class="nav-item">
+          <mat-icon class="nav-icon">build</mat-icon>
+          <span class="nav-text">Outils</span>
+        </a>
+        
+        <a routerLink="/publications" routerLinkActive="active" class="nav-item">
+          <mat-icon class="nav-icon">description</mat-icon>
+          <span class="nav-text">Publications</span>
+        </a>
+        
+        <a routerLink="/events" routerLinkActive="active" class="nav-item">
+          <mat-icon class="nav-icon">event</mat-icon>
+          <span class="nav-text">Événements</span>
+        </a>
+      </nav>
+      
+      <!-- Actions utilisateur -->
+      <div class="user-section">
+        <button mat-icon-button class="user-btn" matTooltip="Mon compte">
+          <mat-icon class="user-icon">account_circle</mat-icon>
+        </button>
+        
+        <button mat-icon-button class="user-btn logout-btn" (click)="logout()" matTooltip="Déconnexion">
+          <mat-icon class="logout-icon">logout</mat-icon>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- BANDEAU DE PAGE AVEC COULEUR
+  <div class="page-banner">
+    <div class="banner-content">
+      <h2 class="page-title">{{getPageTitle()}}</h2>
+      <p class="page-description" *ngIf="getPageSubtitle()">{{getPageSubtitle()}}</p>
+    </div>
+    <div class="banner-decoration"></div>
+  </div> -->
+
+  <!-- CONTENU PRINCIPAL -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- FOOTER COLORÉ -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-info">
+        <span class="footer-logo">LabManager</span>
+        <span class="footer-version">Système de Gestion de Laboratoire</span>
+      </div>
+      <div class="footer-copyright">
+        <span>© 2024 Tous droits réservés</span>
+      </div>
+    </div>
+  </footer>
+
+</div>

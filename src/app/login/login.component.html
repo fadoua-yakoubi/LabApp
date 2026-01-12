@@ -1,0 +1,111 @@
+<div class="login-container">
+  <div class="login-card">
+    <!-- Logo et titre -->
+    <div class="login-header">
+      <mat-icon class="login-icon">science</mat-icon>
+      <h1 class="login-title">LabManager</h1>
+      <p class="login-subtitle">Système de Gestion de Laboratoire</p>
+    </div>
+
+    <!-- Formulaire de connexion -->
+    <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-form">
+      
+      <!-- Champ Email -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Adresse Email</mat-label>
+        <input matInput 
+               type="email" 
+               formControlName="email" 
+               placeholder="exemple@laboratoire.fr" 
+               autocomplete="email" />
+        <mat-icon matPrefix>email</mat-icon>
+        
+        <!-- Messages d'erreur Email -->
+        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+          L'adresse email est obligatoire
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+          Veuillez entrer une adresse email valide
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Champ Mot de passe -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput 
+               [type]="hidePassword ? 'password' : 'text'" 
+               formControlName="password" 
+               autocomplete="current-password" />
+        <mat-icon matPrefix>lock</mat-icon>
+        <button mat-icon-button matSuffix 
+                type="button"
+                (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="'Afficher le mot de passe'"
+                [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        
+        <!-- Messages d'erreur Mot de passe -->
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+          Le mot de passe est obligatoire
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
+          Le mot de passe doit contenir au moins 6 caractères
+        </mat-error>
+      </mat-form-field>
+
+
+      <!-- Bouton de connexion -->
+      <button mat-raised-button 
+              color="primary" 
+              type="submit" 
+              class="login-button"
+              [disabled]="loginForm.invalid || isLoading">
+        <mat-icon>login</mat-icon>
+        <span>{{ isLoading ? 'Connexion en cours...' : 'Se connecter' }}</span>
+      </button>
+
+      <!-- Message d'erreur général -->
+      <div *ngIf="errorMessage" class="error-message">
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+    </form>
+
+    <!-- Pied de page -->
+    <div class="login-footer">
+      <p>© 2024 LabManager - Tous droits réservés</p>
+      <p>Version 1.0.0</p>
+    </div>
+  </div>
+
+  <!-- Section d'information (optionnel) -->
+  <div class="info-section">
+    <div class="info-content">
+      <h2>Bienvenue sur LabManager</h2>
+      <div class="features">
+        <div class="feature">
+          <mat-icon>people</mat-icon>
+          <h3>Gestion des Membres</h3>
+          <p>Gérez les chercheurs, étudiants et enseignants</p>
+        </div>
+        <div class="feature">
+          <mat-icon>description</mat-icon>
+          <h3>Publications</h3>
+          <p>Suivez et organisez vos publications scientifiques</p>
+        </div>
+        <div class="feature">
+          <mat-icon>event</mat-icon>
+          <h3>Événements</h3>
+          <p>Planifiez les séminaires et conférences</p>
+        </div>
+        <div class="feature">
+          <mat-icon>build</mat-icon>
+          <h3>Outils</h3>
+          <p>Gérez le matériel de laboratoire</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

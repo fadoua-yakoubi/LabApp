@@ -1,0 +1,54 @@
+<div class="delete-dialog-container">
+  <div class="dialog-header">
+    <mat-icon color="warn" class="warning-icon">warning</mat-icon>
+    <h2 class="dialog-title">Confirmer la suppression</h2>
+  </div>
+
+  <mat-dialog-content>
+    <p class="confirmation-text">
+      Êtes-vous sûr de vouloir supprimer cette publication ?
+    </p>
+    
+    <div class="event-details">
+      <div class="detail-item">
+        <mat-icon class="detail-icon">title</mat-icon>
+        <span class="detail-label">Titre :</span>
+        <span class="detail-value">{{ data.titre }}</span>
+      </div>
+      
+      <div class="detail-item">
+        <mat-icon class="detail-icon">people</mat-icon>
+        <span class="detail-label">Auteurs :</span>
+        <span class="detail-value">{{ data.auteurs }}</span>
+      </div>
+      
+      <div class="detail-item">
+        <mat-icon class="detail-icon">event</mat-icon>
+        <span class="detail-label">Date :</span>
+        <span class="detail-value">{{ data.dateApparition | date:'dd/MM/yyyy' }}</span>
+      </div>
+      
+      <div class="detail-item">
+        <mat-icon class="detail-icon">article</mat-icon>
+        <span class="detail-label">Type :</span>
+        <span class="detail-value">{{ data.type }}</span>
+      </div>
+    </div>
+    
+    <p class="warning-text">
+      <mat-icon class="warning-small-icon">info</mat-icon>
+      Cette action est irréversible.
+    </p>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="dialog-actions">
+    <button mat-button class="cancel-btn" (click)="onCancel()">
+      <mat-icon>close</mat-icon>
+      Annuler
+    </button>
+    <button mat-raised-button color="warn" class="delete-btn" (click)="onConfirm()">
+      <mat-icon>delete</mat-icon>
+      Supprimer
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,82 @@
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <h1>Gestion des Outils</h1>
+    <button mat-raised-button color="primary" (click)="open()">
+      <mat-icon>add</mat-icon>
+      Nouvel Outil
+    </button>
+  </div>
+
+  <!-- Recherche -->
+  <mat-form-field class="search-field">
+    <mat-label>Rechercher</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher un outil..." #input>
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <!-- Tableau -->
+  <div class="table-container" *ngIf="!isLoading; else loading">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+      <!-- Colonne ID -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <td mat-cell *matCellDef="let row">{{row.id}}</td>
+      </ng-container>
+
+      <!-- Colonne Source -->
+      <ng-container matColumnDef="source">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Source</th>
+        <td mat-cell *matCellDef="let row">
+          <strong>{{row.source}}</strong>
+        </td>
+      </ng-container>
+
+      <!-- Colonne Date -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+        <td mat-cell *matCellDef="let row">{{row.date | date:'dd/MM/yyyy'}}</td>
+      </ng-container>
+
+      <!-- Colonne Actions -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button color="primary" (click)="openEdit(row.id)" matTooltip="Modifier">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="delete(row.id)" matTooltip="Supprimer">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <!-- Message si aucune donnée -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">
+          Aucune donnée correspondant au filtre "{{input.value}}"
+        </td>
+      </tr>
+    </table>
+
+    <!-- Paginator -->
+    <mat-paginator 
+      [pageSizeOptions]="[5, 10, 25, 100]" 
+      [pageSize]="5"
+      showFirstLastButtons
+      [length]="dataSource.filteredData.length">
+    </mat-paginator>
+  </div>
+
+  <!-- Loading -->
+  <ng-template #loading>
+    <div class="loading-container">
+      <mat-spinner></mat-spinner>
+      <p>Chargement des outils...</p>
+    </div>
+  </ng-template>
+</div>

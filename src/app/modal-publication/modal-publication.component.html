@@ -1,0 +1,66 @@
+<div class="modal-container">
+  <h2 class="modal-title">{{ isEditMode ? 'Modifier' : 'Nouvelle' }} Publication</h2>
+  
+  <form [formGroup]="publicationForm" (ngSubmit)="save()" class="publication-form">
+    <div class="form-grid">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Titre *</mat-label>
+        <input matInput formControlName="titre" required>
+        <mat-error *ngIf="publicationForm.get('titre')?.hasError('required')">
+          Le titre est obligatoire
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Type *</mat-label>
+        <mat-select formControlName="type" required>
+          <mat-option *ngFor="let type of publicationTypes" [value]="type">
+            {{type}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="publicationForm.get('type')?.hasError('required')">
+          Le type est obligatoire
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Date d'apparition *</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="dateApparition" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="publicationForm.get('dateApparition')?.hasError('required')">
+          La date est obligatoire
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Source (Journal/Conférence)</mat-label>
+        <input matInput formControlName="source">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Auteurs *</mat-label>
+        <input matInput formControlName="auteurs" required placeholder="Séparés par des virgules">
+        <mat-error *ngIf="publicationForm.get('auteurs')?.hasError('required')">
+          Les auteurs sont obligatoires
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Lien (DOI/URL)</mat-label>
+        <input matInput formControlName="lien" type="url">
+      </mat-form-field>
+    </div>
+
+    <div class="form-actions">
+      <button mat-button type="button" (click)="close()">
+        <mat-icon>close</mat-icon>
+        Annuler
+      </button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="publicationForm.invalid">
+        <mat-icon>{{ isEditMode ? 'edit' : 'save' }}</mat-icon>
+        {{ isEditMode ? 'Mettre à jour' : 'Enregistrer' }}
+      </button>
+    </div>
+  </form>
+</div>

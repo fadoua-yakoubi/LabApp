@@ -1,0 +1,310 @@
+.dashboard-container {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Cartes de statistiques */
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  padding: 0 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+}
+
+.stat-card mat-card-content {
+  padding: 24px !important;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.stat-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-icon mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: white;
+}
+
+.stat-info {
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+  color: #202124;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #5f6368;
+  margin: 4px 0 0 0;
+  font-weight: 500;
+}
+
+/* Couleurs des cartes */
+.members-card .stat-icon {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.events-card .stat-icon {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.tools-card .stat-icon {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.publications-card .stat-icon {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+/* Graphiques */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.chart-card {
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+}
+
+.chart-card mat-card-header {
+  padding: 20px 20px 0 20px;
+}
+
+.chart-card mat-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #3f51b5;
+}
+
+.chart-wrapper {
+  height: 300px;
+  padding: 20px;
+  position: relative;
+}
+
+/* Résumés */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+}
+
+.summary-card {
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+}
+
+.summary-card mat-card-header {
+  padding: 20px 20px 0 20px;
+}
+
+.summary-card mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #3f51b5;
+}
+
+.summary-card mat-card-title mat-icon {
+  color: #3f51b5;
+}
+
+.summary-card mat-card-content {
+  padding: 20px !important;
+}
+
+/* Événements */
+.event-item {
+  display: flex;
+  gap: 15px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  transition: background-color 0.2s;
+}
+
+.event-item:hover {
+  background-color: #e8f0fe;
+}
+
+.event-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #5f6368;
+  white-space: nowrap;
+}
+
+.event-date mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.event-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.event-info strong {
+  display: block;
+  color: #202124;
+  font-size: 14px;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.event-location {
+  display: block;
+  font-size: 12px;
+  color: #5f6368;
+}
+
+/* Publications */
+.publication-item {
+  display: flex;
+  gap: 15px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  transition: background-color 0.2s;
+}
+
+.publication-item:hover {
+  background-color: #e8f0fe;
+}
+
+.publication-date {
+  font-size: 13px;
+  color: #5f6368;
+  white-space: nowrap;
+}
+
+.publication-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.publication-info strong {
+  display: block;
+  color: #202124;
+  font-size: 14px;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.publication-type {
+  display: inline-block;
+  padding: 2px 8px;
+  background-color: #e8f0fe;
+  color: #1967d2;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* États */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  gap: 15px;
+}
+
+.loading-state p {
+  color: #5f6368;
+  margin: 0;
+}
+
+.no-data {
+  text-align: center;
+  color: #5f6368;
+  padding: 20px;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 10px;
+  }
+
+  .cards-container {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+  }
+
+  .stat-card mat-card-content {
+    padding: 16px !important;
+  }
+
+  .stat-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .stat-icon mat-icon {
+    font-size: 28px;
+  }
+
+  .stat-value {
+    font-size: 28px;
+  }
+
+  .charts-grid,
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-wrapper {
+    height: 250px;
+  }
+}

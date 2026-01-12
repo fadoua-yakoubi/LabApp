@@ -1,0 +1,151 @@
+<div class="dashboard-container">
+  <!-- Cartes de statistiques -->
+  <div class="cards-container">
+    <mat-card class="stat-card members-card">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>people</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3 class="stat-value">{{Nb_Membres}}</h3>
+          <p class="stat-label">Membres</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card events-card">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>event</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3 class="stat-value">{{Nb_Evenements}}</h3>
+          <p class="stat-label">Événements</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card tools-card">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>build</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3 class="stat-value">{{Nb_Outils}}</h3>
+          <p class="stat-label">Outils</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card publications-card">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>description</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3 class="stat-value">{{Nb_Publications}}</h3>
+          <p class="stat-label">Publications</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Graphiques -->
+  <div class="charts-grid">
+    <!-- Graphique des événements par mois -->
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>Événements par mois</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-wrapper" *ngIf="!isLoadingEvents; else loading">
+          <canvas baseChart
+                  [type]="'line'"
+                  [data]="eventsChartData"
+                  [options]="lineChartOptions">
+          </canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Graphique des publications par type -->
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>Publications par type</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-wrapper" *ngIf="!isLoadingPublications; else loading">
+          <canvas baseChart
+                  [type]="'doughnut'"
+                  [data]="publicationsChartData"
+                  [options]="doughnutChartOptions">
+          </canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Tableaux récapitulatifs -->
+  <div class="summary-grid">
+    <!-- Événements à venir -->
+    <mat-card class="summary-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>event_upcoming</mat-icon>
+          Événements à venir
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="upcomingEvents.length > 0; else noUpcomingEvents">
+          <div class="event-item" *ngFor="let event of upcomingEvents.slice(0, 5)">
+            <div class="event-date">
+              <mat-icon>calendar_today</mat-icon>
+              {{event.date | date:'dd/MM/yyyy'}}
+            </div>
+            <div class="event-info">
+              <strong>{{event.titre}}</strong>
+              <span class="event-location">{{event.lieu}}</span>
+            </div>
+          </div>
+        </div>
+        <ng-template #noUpcomingEvents>
+          <p class="no-data">Aucun événement à venir</p>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Publications récentes -->
+    <mat-card class="summary-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>new_releases</mat-icon>
+          Publications récentes
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="recentPublications.length > 0; else noPublications">
+          <div class="publication-item" *ngFor="let pub of recentPublications.slice(0, 5)">
+            <div class="publication-date">
+              {{pub.dateApparition | date:'dd/MM/yyyy'}}
+            </div>
+            <div class="publication-info">
+              <strong>{{pub.titre}}</strong>
+              <span class="publication-type">{{pub.type}}</span>
+            </div>
+          </div>
+        </div>
+        <ng-template #noPublications>
+          <p class="no-data">Aucune publication récente</p>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Template de loading -->
+  <ng-template #loading>
+    <div class="loading-state">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Chargement...</p>
+    </div>
+  </ng-template>
+</div>

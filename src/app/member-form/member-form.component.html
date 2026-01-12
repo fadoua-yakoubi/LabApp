@@ -1,0 +1,198 @@
+<div class="form-container">
+  <h2 class="form-title">{{ idCourant ? 'Modifier un membre' : 'Ajouter un nouveau membre' }}</h2>
+  
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit()" class="member-form">
+    <div class="form-grid">
+      
+      <!-- Type de membre -->
+      <div class="form-group full-width">
+        <label for="type">Type de membre</label>
+        <select 
+          id="type" 
+          formControlName="type" 
+          class="form-control"
+          (change)="onTypeChange()"
+          [class.is-invalid]="myForm.get('type')?.invalid && myForm.get('type')?.touched"
+        >
+          <option value="">-- Sélectionner un type --</option>
+          <option value="etd">Étudiant</option>
+          <option value="ens">Enseignant Chercheur</option>
+        </select>
+        <div class="invalid-feedback" *ngIf="myForm.get('type')?.invalid && myForm.get('type')?.touched">
+          Le type est obligatoire
+        </div>
+      </div>
+
+      <!-- CIN -->
+      <div class="form-group half-width">
+        <label for="cin">CIN</label>
+        <input 
+          type="text" 
+          id="cin" 
+          formControlName="cin" 
+          class="form-control"
+          [class.is-invalid]="myForm.get('cin')?.invalid && myForm.get('cin')?.touched"
+        >
+        <div class="invalid-feedback" *ngIf="myForm.get('cin')?.invalid && myForm.get('cin')?.touched">
+          Le CIN est obligatoire
+        </div>
+      </div>
+
+      <!-- Nom -->
+      <div class="form-group half-width">
+        <label for="nom">Nom</label>
+        <input 
+          type="text" 
+          id="nom" 
+          formControlName="nom" 
+          class="form-control"
+          [class.is-invalid]="myForm.get('nom')?.invalid && myForm.get('nom')?.touched"
+        >
+        <div class="invalid-feedback" *ngIf="myForm.get('nom')?.invalid && myForm.get('nom')?.touched">
+          Le nom est obligatoire
+        </div>
+      </div>
+
+      <!-- Prénom -->
+      <div class="form-group half-width">
+        <label for="prenom">Prénom</label>
+        <input 
+          type="text" 
+          id="prenom" 
+          formControlName="prenom" 
+          class="form-control"
+          [class.is-invalid]="myForm.get('prenom')?.invalid && myForm.get('prenom')?.touched"
+        >
+        <div class="invalid-feedback" *ngIf="myForm.get('prenom')?.invalid && myForm.get('prenom')?.touched">
+          Le prénom est obligatoire
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group half-width">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email" 
+          class="form-control"
+          [class.is-invalid]="myForm.get('email')?.invalid && myForm.get('email')?.touched"
+        >
+        <div class="invalid-feedback" *ngIf="myForm.get('email')?.invalid && myForm.get('email')?.touched">
+          Email invalide
+        </div>
+      </div>
+
+      <!-- Mot de passe -->
+      <div class="form-group half-width">
+        <label for="password">Mot de passe</label>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password" 
+          class="form-control"
+        >
+      </div>
+
+      <!-- Section des fichiers -->
+      <div class="file-section full-width">
+        <h4>📁 Fichiers joints</h4>
+        
+        <!-- CV -->
+        <div class="form-group half-width">
+          <label for="cv">CV</label>
+          <input 
+            type="text" 
+            id="cv" 
+            formControlName="cv" 
+            class="form-control"
+            placeholder="Nom du fichier CV"
+          >
+        </div>
+
+        <!-- Photo -->
+        <div class="form-group half-width">
+          <label for="photo">Photo</label>
+          <input 
+            type="text" 
+            id="photo" 
+            formControlName="photo" 
+            class="form-control"
+            placeholder="URL de la photo"
+          >
+        </div>
+      </div>
+
+      <!-- CHAMPS CONDITIONNELS POUR ÉTUDIANT -->
+      <div class="conditional-fields full-width" *ngIf="myForm.get('type')?.value === 'etd'">
+        <div class="conditional-title">Informations étudiant</div>
+        <div class="form-grid">
+          <div class="form-group half-width">
+            <label for="diplome">Diplôme</label>
+            <input 
+              type="text" 
+              id="diplome" 
+              formControlName="diplome" 
+              class="form-control"
+              placeholder="Ex: Mastère, Doctorat"
+            >
+          </div>
+          <div class="form-group half-width">
+            <label for="dateInscription">Date d'inscription</label>
+            <input 
+              type="date" 
+              id="dateInscription" 
+              formControlName="dateInscription" 
+              class="form-control"
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- CHAMPS CONDITIONNELS POUR ENSEIGNANT -->
+      <div class="conditional-fields full-width" *ngIf="myForm.get('type')?.value === 'ens'">
+        <div class="conditional-title">Informations enseignant</div>
+        <div class="form-grid">
+          <div class="form-group half-width">
+            <label for="grade">Grade</label>
+            <input 
+              type="text" 
+              id="grade" 
+              formControlName="grade" 
+              class="form-control"
+              placeholder="Ex: Professeur, Maître de conférences"
+            >
+          </div>
+          <div class="form-group half-width">
+            <label for="etablissement">Établissement</label>
+            <input 
+              type="text" 
+              id="etablissement" 
+              formControlName="etablissement" 
+              class="form-control"
+              placeholder="Ex: ENIS, FST"
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="form-actions full-width">
+        <button 
+          type="button" 
+          class="btn btn-secondary" 
+          routerLink="/members"
+        >
+          Annuler
+        </button>
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="myForm.invalid"
+        >
+          {{ idCourant ? 'Modifier' : 'Créer' }}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

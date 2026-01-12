@@ -1,0 +1,87 @@
+{
+  "members": [
+    {
+      "id": "123",
+      "cin": "1111",
+      "name": "Imen",
+      "type": "Teacher",
+      "cv": "lien",
+      "createdDate": "12/10/2025"
+    },
+    {
+      "id": "124",
+      "cin": "1112",
+      "name": "Imen",
+      "type": "Teacher",
+      "cv": "lien",
+      "createdDate": "12/10/2025"
+    },
+    {
+      "id": "62d2",
+      "cin": "1112",
+      "name": "Imene",
+      "type": "Teacher",
+      "cv": "lien",
+      "createdDate": "12/10/2025"
+    },
+    {
+      "cin": "1112",
+      "name": "Imene",
+      "type": "Teacher",
+      "cv": "lien1",
+      "createdDate": "12/10/2025",
+      "id": "b994"
+    }
+  ],
+  "Evts": [
+    {
+      "id": "1234",
+      "titre": "Evt1",
+      "dateDebut": "12/10/2025",
+      "dateFin": "12/10/2025",
+      "lieu": "Sfax"
+    },
+    {
+      "id": "1235",
+      "titre": "Evt1",
+      "dateDebut": "12/10/2025",
+      "dateFin": "12/10/2025",
+      "lieu": "Sfax"
+    },
+    {
+      "id": "1236",
+      "titre": "Evt1",
+      "dateDebut": "12/10/2025",
+      "dateFin": "12/10/2025",
+      "lieu": "Sfax"
+    },
+    {
+      "id": "1237",
+      "titre": "Evt1",
+      "dateDebut": "12/10/2025",
+      "dateFin": "12/10/2025",
+      "lieu": "Sfax"
+    },
+    {
+      "id": "1238",
+      "titre": "Evt1",
+      "dateDebut": "12/10/2025",
+      "dateFin": "12/10/2025",
+      "lieu": "Sfax"
+    },
+    {
+      "id": "123",
+      "titre": "Evt1",
+      "dateDebut": "12/10/2025",
+      "dateFin": "12/10/2025",
+      "lieu": "Sfax"
+    },
+    {
+      "id": "9486",
+      "titre": "A",
+      "dateDebut": "2025-12-02T23:00:00.000Z",
+      "dateFin": null,
+      "lieu": "Sfax"
+    }
+  ]
+}

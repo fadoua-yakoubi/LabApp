@@ -1,0 +1,190 @@
+.dialog-container {
+  padding: 24px;
+  min-width: 700px;
+  max-width: 900px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #3f51b5;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.dialog-title mat-icon {
+  color: #3f51b5;
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.tab-content {
+  padding: 20px;
+  min-height: 400px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.search-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.publications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.publication-card {
+  border-radius: 8px !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+  transition: all 0.3s ease;
+}
+
+.publication-card.selectable {
+  cursor: pointer;
+}
+
+.publication-card.selectable:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+  transform: translateY(-2px);
+}
+
+.publication-card mat-card-content {
+  padding: 16px !important;
+}
+
+.pub-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.pub-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #202124;
+  flex: 1;
+}
+
+.pub-details {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.pub-type {
+  display: inline-block;
+  padding: 4px 12px;
+  background-color: #e8f0fe;
+  color: #1967d2;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.pub-date {
+  font-size: 13px;
+  color: #5f6368;
+}
+
+.pub-authors {
+  font-size: 14px;
+  color: #5f6368;
+  margin: 8px 0;
+}
+
+.pub-source {
+  font-size: 13px;
+  color: #5f6368;
+  font-style: italic;
+  margin: 4px 0 0 0;
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 15px;
+}
+
+.loading-state p {
+  color: #5f6368;
+  margin: 0;
+}
+
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.no-data mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #9aa0a6;
+  margin-bottom: 12px;
+}
+
+.no-data p {
+  color: #5f6368;
+  font-size: 16px;
+  margin: 0;
+}
+
+mat-dialog-actions {
+  padding: 16px 0 0 0 !important;
+  margin-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Scrollbar personnalisée */
+.tab-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tab-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.tab-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.tab-content::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dialog-container {
+    min-width: 90vw;
+    padding: 16px;
+  }
+
+  .dialog-title {
+    font-size: 18px;
+  }
+
+  .tab-content {
+    padding: 15px;
+    min-height: 300px;
+  }
+}

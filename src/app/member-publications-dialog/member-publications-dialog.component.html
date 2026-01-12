@@ -1,0 +1,90 @@
+<div class="dialog-container">
+  <h2 class="dialog-title">
+    <mat-icon>article</mat-icon>
+    Publications de {{memberName}}
+  </h2>
+
+  <!-- Onglets -->
+  <mat-tab-group>
+    <!-- Onglet: Publications du membre -->
+    <mat-tab label="Publications attribuées">
+      <div class="tab-content">
+        <div *ngIf="isLoadingMemberPubs" class="loading-state">
+          <mat-spinner diameter="40"></mat-spinner>
+          <p>Chargement...</p>
+        </div>
+
+        <div *ngIf="!isLoadingMemberPubs && memberPublications.length === 0" class="no-data">
+          <mat-icon>info</mat-icon>
+          <p>Aucune publication attribuée</p>
+        </div>
+
+        <div *ngIf="!isLoadingMemberPubs && memberPublications.length > 0" class="publications-list">
+          <mat-card *ngFor="let pub of memberPublications" class="publication-card">
+            <mat-card-content>
+              <div class="pub-header">
+                <h3>{{pub.titre}}</h3>
+              
+              </div>
+              <div class="pub-details">
+                <span class="pub-type">{{pub.type}}</span>
+                <span class="pub-date">{{pub.dateApparition | date:'dd/MM/yyyy'}}</span>
+              </div>
+              <p class="pub-authors">{{pub.auteurs}}</p>
+              <p *ngIf="pub.source" class="pub-source">Source: {{pub.source}}</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- Onglet: Ajouter une publication -->
+    <mat-tab label="Ajouter une publication">
+      <div class="tab-content">
+        <!-- Recherche -->
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Rechercher une publication</mat-label>
+          <input matInput [(ngModel)]="searchTerm" (ngModelChange)="filterPublications()" placeholder="Titre, auteurs, type...">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <div *ngIf="isLoadingAllPubs" class="loading-state">
+          <mat-spinner diameter="40"></mat-spinner>
+          <p>Chargement des publications...</p>
+        </div>
+
+        <div *ngIf="!isLoadingAllPubs && filteredPublications.length === 0" class="no-data">
+          <mat-icon>info</mat-icon>
+          <p>Aucune publication disponible</p>
+        </div>
+
+        <div *ngIf="!isLoadingAllPubs && filteredPublications.length > 0" class="publications-list">
+          <mat-card *ngFor="let pub of filteredPublications" class="publication-card selectable" (click)="addPublication(pub.id)">
+            <mat-card-content>
+              <div class="pub-header">
+                <h3>{{pub.titre}}</h3>
+                <button mat-icon-button color="primary" (click)="addPublication(pub.id); $event.stopPropagation()" matTooltip="Ajouter">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+              <div class="pub-details">
+                <span class="pub-type">{{pub.type}}</span>
+                <span class="pub-date">{{pub.dateApparition | date:'dd/MM/yyyy'}}</span>
+              </div>
+              <p class="pub-authors">{{pub.auteurs}}</p>
+              <p *ngIf="pub.source" class="pub-source">Source: {{pub.source}}</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+  <!-- Actions -->
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="close()">
+      <mat-icon>close</mat-icon>
+      Fermer
+    </button>
+  </mat-dialog-actions>
+</div>
